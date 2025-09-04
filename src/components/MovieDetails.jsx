@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import API from "../services/api-services";
+import { useCookies } from "react-cookie";
 
 function MovieDetails({ selectedMovie, setSelectedMovie, setUpdatedMovie }) {
   const [highlighted, setHighlighted] = useState(-1);
   const [error, setError] = useState(null);
+  const [token] = useCookies("mr-token");
 
   const rateMovie = async (rate) => {
     const rateMovieFunc = async () => {
-      const resp = await API.rateMovie(selectedMovie.id, { stars: rate });
+      const resp = await API.rateMovie(
+        selectedMovie.id,
+        { stars: rate },
+        token["mr-token"]
+      );
       if (resp) {
         getNewMovie();
         setError("Successfully rating movie");
@@ -18,9 +24,8 @@ function MovieDetails({ selectedMovie, setSelectedMovie, setUpdatedMovie }) {
   };
 
   const getNewMovie = async () => {
-    console.log("get to getNewMovie", selectedMovie.title);
     const fetchNewMovie = async () => {
-      const resp = await API.getNewMovie(selectedMovie.id);
+      const resp = await API.getNewMovie(selectedMovie.id, token["mr-token"]);
       if (resp) {
         setSelectedMovie(resp);
         setUpdatedMovie(resp);

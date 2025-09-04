@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import API from "../services/api-services";
+import { useCookies } from "react-cookie";
 
 function MovieList({ movieClicked, newMovie, updatedMovie }) {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
+  const [token] = useCookies("mr-token");
 
   useEffect(() => {
     const updatedMovies = movies.map((movie) =>
@@ -23,7 +25,7 @@ function MovieList({ movieClicked, newMovie, updatedMovie }) {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const resp = await API.getMovies();
+      const resp = await API.getMovies(token["mr-token"]);
       if (resp) setMovies(resp);
       else setError("Error fetching movies");
     };
@@ -31,7 +33,7 @@ function MovieList({ movieClicked, newMovie, updatedMovie }) {
   }, []);
 
   const removeMovie = async (movie) => {
-    const resp = await API.deleteMovie(movie.id);
+    const resp = await API.deleteMovie(movie.id, token["mr-token"]);
     if (resp) {
       const newMovieList = [...movies].filter((ele) => ele.id !== movie.id);
       setMovies(newMovieList);

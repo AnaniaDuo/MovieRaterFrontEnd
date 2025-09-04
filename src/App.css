@@ -15,3 +15,20 @@
   color: white;
 }
 
+input,
+textarea {
+  padding: 0.4rem;
+  margin: 3px;
+  color: black;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: green;
+  border-radius: 10px;
+}
+
+button:disabled {
+  background-color: grey;
+  border-radius: 10px;
+}

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import API from "../services/api-services";
+import { useCookies } from "react-cookie";
 
 function MovieForm({ movie, setUpdatedMovie, setNewMovie }) {
   const [title, setTitle] = useState(movie.title);
   const [description, setDescription] = useState(movie.description);
+  const [token] = useCookies("mr-token");
+  const isDisabled = title && description ? false : true;
 
   useEffect(() => {
     setTitle(movie.title);
@@ -11,14 +14,21 @@ function MovieForm({ movie, setUpdatedMovie, setNewMovie }) {
   }, [movie]);
 
   const saveMovie = async () => {
-    const response = await API.updateMovie(movie.id, { title, description });
+    const response = await API.updateMovie(
+      movie.id,
+      { title, description },
+      token["mr-token"]
+    );
     if (response) {
       setUpdatedMovie(response);
     }
   };
 
   const createMovie = async () => {
-    const resp = await API.createMovie({ title, description });
+    const resp = await API.createMovie(
+      { title, description },
+      token["mr-token"]
+    );
     if (resp) {
       setNewMovie(resp);
     }
@@ -45,10 +55,15 @@ function MovieForm({ movie, setUpdatedMovie, setNewMovie }) {
             onChange={(evt) => setDescription(evt.target.value)}
             className="text-gray-700"
           />
+          <p>&nbsp;</p>
           {movie.id ? (
-            <button onClick={saveMovie}>Update Movie</button>
+            <button onClick={saveMovie} disabled={isDisabled}>
+              Update Movie
+            </button>
           ) : (
-            <button onClick={createMovie}>Add a Movie</button>
+            <button onClick={createMovie} disabled={isDisabled}>
+              Add a Movie
+            </button>
           )}
         </div>
       )}

@@ -1,13 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, { useState } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import Auth from "./components/Auth";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+function Router() {
+  const [token, setToken] = useState(null);
+
+  return (
+    <CookiesProvider value={{ token, setToken }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Auth />}></Route>
+          <Route path="/movies" element={<App />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </CookiesProvider>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Router />
   </React.StrictMode>
 );
 
