@@ -1,6 +1,12 @@
 // const TOKEN = "d3166b4b903d22fd0872b52bc62cf3ebe54736c8";
-const API_URL = "http://127.0.0.1:8000/api";
-const AUTH_URL = "http://127.0.0.1:8000";
+const API_URL =
+  "https://movie-rater-6bae5.web.app/api" ||
+  "https://movie-rater-6bae5.firebaseapp.com";
+const AUTH_URL =
+  "https://movie-rater-6bae5.web.app" ||
+  "https://movie-rater-6bae5.firebaseapp.com";
+// const API_URL = "http://127.0.0.1:8000/api";
+// const AUTH_URL = "http://127.0.0.1:8000";
 
 export default class API {
   static async userLogin(body) {
@@ -43,16 +49,13 @@ export default class API {
   }
 
   static getNewMovie = async (movieId, token) => {
-    const response = await fetch(
-      `http://127.0.0.1:8000/api/movies/${movieId}/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
-        },
-      }
-    );
+    const response = await fetch(`${API_URL}/movies/${movieId}/`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+    });
 
     if (!response.ok) {
       return null;
@@ -62,17 +65,14 @@ export default class API {
   };
 
   static rateMovie = async (movieId, body, token) => {
-    const response = await fetch(
-      `http://127.0.0.1:8000/api/movies/${movieId}/rate_movie/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    const response = await fetch(`${API_URL}/movies/${movieId}/rate_movie/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
 
     if (!response.ok) {
       return null;
