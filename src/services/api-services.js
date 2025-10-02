@@ -1,6 +1,7 @@
-// const TOKEN = "d3166b4b903d22fd0872b52bc62cf3ebe54736c8";
-const API_URL = "https://anhhduong.pythonanywhere.com/api";
-const AUTH_URL = "https://anhhduong.pythonanywhere.com";
+const API_URL = process.env.REACT_APP_API_URL;
+const AUTH_URL = process.env.REACT_APP_AUTH_URL;
+// const API_URL = "https://anhhduong.pythonanywhere.com/api";
+// const AUTH_URL = "https://anhhduong.pythonanywhere.com";
 // const API_URL = "http://127.0.0.1:8000/api";
 // const AUTH_URL = "http://127.0.0.1:8000";
 
